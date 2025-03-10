@@ -41,7 +41,7 @@ function App() {
           placeholder="Tìm kiếm bài viết..."
           onInput={(event) => {
             let searchValue = event.currentTarget.value.trim().toLowerCase()
-            searchValue?setInputSearch(searchValue):null}}
+            setInputSearch(searchValue)}}
         />
       </div>
 
@@ -76,7 +76,7 @@ function App() {
         ))}
       </ul>
       {/* Pagination */}
-      {!inputSearch?<div className="pagination-container">
+      {inputSearch===""?<div className="pagination-container">
         <div className="records-per-page">
           <label htmlFor="records">Hiển thị:</label>
           <select id="records" className="records-select" onChange={(event) => {
