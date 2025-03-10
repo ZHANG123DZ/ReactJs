@@ -18,7 +18,6 @@ function App() {
     .then(data => {
       
       if (inputSearch.length>3) {
-        console.log(inputSearch)
         data = data.posts.filter(posts => posts.title.toLowerCase().includes(inputSearch))
         setPosts(data)
         setTotalPage(Math.ceil(data.length/numPosts))
