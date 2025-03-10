@@ -9,14 +9,14 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState(0)
   const [inputSearch, setInputSearch] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     let skipPosts = (currentPage-1)*numPosts
     fetch(`https://dummyjson.com/posts?limit=${numPosts}&skip=${skipPosts}`)
     .then(res => res.json())
     .then(data => {
-      
+      setIsLoading(false)
       if (inputSearch.length>3) {
         data = data.posts.filter(posts => posts.title.toLowerCase().includes(inputSearch))
         setPosts(data)
@@ -76,7 +76,7 @@ function App() {
         ))}
       </ul>
       {/* Pagination */}
-      <div className="pagination-container">
+      {!inputSearch?<div className="pagination-container">
         <div className="records-per-page">
           <label htmlFor="records">Hiển thị:</label>
           <select id="records" className="records-select" onChange={(event) => {
@@ -96,7 +96,7 @@ function App() {
           ))}
           <button className="page-btn next" onClick={() => currentPage+1<=totalPage ? setCurrentPage(currentPage+1):setCurrentPage(currentPage)}>Sau »</button>
         </div>
-      </div>
+      </div>:null}
     </div>
   );
 }
