@@ -9,15 +9,16 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState(0)
   const [inputSearch, setInputSearch] = useState("")
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     let skipPosts = (currentPage-1)*numPosts
     fetch(`https://dummyjson.com/posts?limit=${numPosts}&skip=${skipPosts}`)
     .then(res => res.json())
     .then(data => {
-      setIsLoading(false)
-      if (inputSearch) {
+      
+      if (inputSearch.length>3) {
+        console.log(inputSearch)
         data = data.posts.filter(posts => posts.title.toLowerCase().includes(inputSearch))
         setPosts(data)
         setTotalPage(Math.ceil(data.length/numPosts))
@@ -26,6 +27,7 @@ function App() {
         setTotalPage(Math.ceil(data.total/numPosts))
       }
     })
+    
   }, [currentPage, numPosts, inputSearch])
   
   return (
@@ -40,7 +42,7 @@ function App() {
           placeholder="Tìm kiếm bài viết..."
           onInput={(event) => {
             let searchValue = event.currentTarget.value.trim().toLowerCase()
-            searchValue.length>3?setInputSearch(searchValue):null}}
+            searchValue?setInputSearch(searchValue):null}}
         />
       </div>
 
